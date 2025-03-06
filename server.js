@@ -41,3 +41,8 @@ const host = process.env.HOST
 app.listen(port, () => {
   console.log(`app listening on ${host}:${port}`)
 })
+
+
+/* ***********************
+ * Comment to test the manual deployment on render.com
+ *************************/
