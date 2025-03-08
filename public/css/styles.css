@@ -99,36 +99,65 @@ body {
 
 /* Hero Section */
 .hero {
-  padding: 1rem;
+  position: relative;
+  width: 100%;
+  height: 500px; /* Adjust height as needed */
+  display: flex;
+  align-items: center; /* Center content vertically */
+  overflow: hidden; /* Ensures the image doesn't overflow */
 }
 
 .hero__image {
   width: 100%;
-  height: auto;
-  border-radius: 5px;
-  margin-bottom: 1rem;
+  height: 100%;
+  object-fit: cover; /* Ensures the image covers the entire hero section */
+  position: absolute; /* Position the image absolutely */
+  top: 0;
+  left: 0;
+  z-index: 1; /* Ensure the image is behind the content */
+}
+
+.hero__content {
+  position: relative; /* Position relative to the hero section */
+  z-index: 2; /* Ensure the content is above the image */
+  background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
+  padding: 1.5rem;
+  border-radius: 8px;
+  max-width: 300px; /* Adjust width of the content box */
+  margin-left: 2rem; /* Distance from the left edge */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Adds a subtle shadow */
+}
+
+.hero__title {
+  margin: 0 0 1rem 0;
+  color: var(--primary-color); /* Use your primary color variable */
 }
 
 .features {
   list-style: none;
   padding: 0;
+  margin: 0 0 1rem 0;
 }
 
 .features__item {
-  padding: 0.5rem 0;
-  border-bottom: 1px solid #eee;
+  padding: 0.25rem 0;
+  border-bottom: 1px solid #eee; /* Adds a subtle separator */
 }
 
 .cta {
-  background-color: var(--accent-color);
+  background-color: var(--accent-color); /* Use your accent color variable */
   color: white;
   border: none;
-  padding: 1rem 2rem;
-  border-radius: 5px;
-  font-size: 1.1rem;
-  width: 100%;
-  margin-top: 1rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: 4px;
+  font-size: 1rem;
   cursor: pointer;
+  width: 100%;
+  transition: background-color 0.3s ease;
+}
+
+.cta:hover {
+  background-color: darken(var(--accent-color), 10%); /* Darken on hover */
 }
 
 /* Upgrades & Reviews */
@@ -322,5 +351,26 @@ button:focus {
   .nav__link {
       padding: 0.5rem; /* Smaller padding on mobile */
       font-size: 0.9rem; /* Smaller font size on mobile */
+  }
+}
+
+/* Hero Responsive Adjustments */
+@media (max-width: 768px) {
+  .hero {
+      height: 300px; /* Smaller height on mobile */
+  }
+
+  .hero__content {
+      margin-left: 1rem; /* Move closer to the edge on mobile */
+      padding: 1rem;
+      max-width: 250px; /* Smaller box on mobile */
+  }
+
+  .hero__title {
+      font-size: 1.5rem; /* Smaller title on mobile */
+  }
+
+  .cta {
+      padding: 0.5rem 1rem; /* Smaller button on mobile */
   }
 }
