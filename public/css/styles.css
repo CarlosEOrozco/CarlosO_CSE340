@@ -60,30 +60,41 @@ body {
 }
 
 /* Navigation Styles */
+.nav {
+  background-color: var(--primary-color); 
+  padding: 1rem;
+  overflow-x: auto; 
+}
+
 .nav ul {
   list-style: none;
   padding: 0;
   margin: 0;
-  background-color: var(--dark-color);
   display: flex;
-  flex-direction: column;
+  flex-direction: row; 
+  gap: 0.5rem; 
+  justify-content: center; 
+  flex-wrap: wrap; 
 }
 
 .nav li {
-  border-bottom: 1px solid rgba(255,255,255,0.1);
+  flex: 1 1 auto; 
+  min-width: fit-content; 
 }
 
 .nav__link {
   display: block;
-  padding: 1rem;
+  padding: 0.5rem 1rem;
   color: var(--light-color);
   text-decoration: none;
-  transition: background-color 0.3s;
+  background-color: var(--primary-color);
+  border-radius: 4px;
+  text-align: center; /* Center text in buttons */
+  transition: background-color 0.3s ease;
 }
 
-.nav__link--active {
-  background-color: var(--accent-color);
-  font-weight: bold;
+.nav__link:hover {
+  background-color: darken(var(--accent-color), 10%); /* Darken on hover */
 }
 
 /* Hero Section */
@@ -298,5 +309,18 @@ button:focus {
       margin: 0; /* Remove margin on mobile */
       box-shadow: none; /* Remove shadow on mobile */
       border-radius: 0; /* Remove rounded corners on mobile */
+  }
+}
+
+/* Mobile View Adjustments */
+@media (max-width: 768px) {
+  .nav ul {
+      gap: 0.25rem; /* Reduce space between buttons on mobile */
+      justify-content: flex-start; /* Align buttons to the left on mobile */
+  }
+
+  .nav__link {
+      padding: 0.5rem; /* Smaller padding on mobile */
+      font-size: 0.9rem; /* Smaller font size on mobile */
   }
 }
