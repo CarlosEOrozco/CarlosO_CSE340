@@ -1,0 +1,15 @@
+<!-- Content Heading Section -->
+<!-- This section displays the main heading of the page, using the title passed from the controller. -->
+<% if (title) { %>
+    <h1><%= title %></h1>
+    <% } else {
+      res.redirect('/')
+    } %>
+    
+    <!-- Message Block Section -->
+    <!-- This section is reserved for displaying messages (e.g., errors or notifications). -->
+    <%# messages() %>
+    
+    <!-- Inventory Items Display Section -->
+    <!-- This section displays the inventory items in a grid format. -->
+    <%- grid %>
