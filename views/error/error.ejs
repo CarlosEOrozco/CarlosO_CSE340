@@ -1,20 +1,15 @@
-<%- include('../layouts/layouts') %>
+<!-- Content Heading Section -->
+<!-- This section displays the main heading of the page, using the title passed from the controller. -->
+<% if (title) { %>
+    <h1><%= title %></h1>
+<% } else {
+    res.redirect('/');
+} %>
 
-<!-- Main Content Section -->
-<main>
-    <!-- Content Heading Section -->
-    <!-- This section displays the main heading of the page, using the title passed from the controller. -->
-    <% if (title) { %>
-        <h1><%= title %></h1>
-    <% } else {
-        res.redirect('/');
-    } %>
-
-    <!-- Error Message Section -->
-    <div class="error-message">
-        <p><%- message %></p>
-        <img src="/images/site/error-404.jpg" alt="Funny 404 image" class="error-image">
-        <p>Don't worry, it's not you—it's us. Let's get you back on track!</p>
-        <a href="/" class="cta">Go Home</a>
-    </div>
-</main>
+<!-- Error Message Section -->
+<div class="error-message">
+    <p><%- message %></p>
+    <img src="/images/site/error-404.jpg" alt="Funny 404 image" class="error-image">
+    <p>Don't worry, it's not you—it's us. Let's get you back on track!</p>
+    <a href="/" class="cta">Go Home</a>
+</div>
