@@ -373,6 +373,77 @@ button:focus {
   padding: 2rem; /* Add padding around the message */
 }
 
+/* Inventory Detail Styles */
+#inv-detail {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  padding: 2rem;
+  background-color: var(--light-color);
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.detail-image {
+  flex: 1 1 45%;
+  max-width: 45%;
+}
+
+.detail-image img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+.detail-info {
+  flex: 1 1 45%;
+  max-width: 45%;
+}
+
+.detail-info h1 {
+  font-size: 2rem;
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+}
+
+.detail-info .price {
+  font-size: 1.5rem;
+  color: var(--accent-color);
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.detail-info p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin-bottom: 0.75rem;
+}
+
+.detail-info p strong {
+  color: var(--primary-color);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .detail-image,
+  .detail-info {
+    flex: 1 1 100%;
+    max-width: 100%;
+  }
+
+  .detail-info h1 {
+    font-size: 1.75rem;
+  }
+
+  .detail-info .price {
+    font-size: 1.25rem;
+  }
+
+  .detail-info p {
+    font-size: 1rem;
+  }
+}
+
 /* Responsive Adjustments */
 @media (max-width: 768px) {
   #inv-display {
