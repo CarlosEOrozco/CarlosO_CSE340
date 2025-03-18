@@ -42,4 +42,10 @@ invCont.buildByInventoryId = async function (req, res, next) {
   }
 };
 
+// Intentional 500 error function
+invCont.triggerError = async function (req, res, next) {
+  // Intentionally throw an error
+  throw new Error("Intentional 500 Error: Something went wrong!");
+};
+
 module.exports = invCont
