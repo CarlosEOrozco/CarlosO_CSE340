@@ -1,0 +1,17 @@
+
+<%- include('../partials/header') %>
+<%- include('../partials/navigation', { nav }) %>
+
+<main class="login-container">
+  <h1><%= title %></h1>
+  
+  <% if (message) { %>
+    <div class="flash-message"><%= message %></div>
+  <% } %>
+  <%- include('_loginForm') %>
+  <div class="register-link">
+    No account? <a href="/account/register">Sign-up</a>
+  </div>
+</main>
+
+<%- include('../partials/footer') %>
