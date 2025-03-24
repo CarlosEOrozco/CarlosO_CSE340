@@ -9,7 +9,12 @@
 <!-- Error Message Section -->
 <div class="error-message">
     <p><%- message %></p>
-    <img src="/images/site/error-404.jpg" alt="Funny 404 image" class="error-image">
-    <p>Don't worry, it's not you—it's us. Let's get you back on track!</p>
+    <% if (title === '404 Not Found') { %>
+      <img src="/images/site/error-404.jpg" alt="Funny 404 image" class="error-image">
+      <p>Don't worry, it's not you—it's us. Let's get you back on track!</p>
+    <% } else { %>
+      <img src="/images/site/error-500.jpg" alt="Funny 500 image" class="error-image">
+      <p>Oops! Something went wrong on our end. We're working to fix it!</p>
+    <% } %>
     <a href="/" class="cta">Go Home</a>
-</div>
+  </div>
