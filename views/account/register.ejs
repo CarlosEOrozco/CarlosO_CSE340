@@ -1,46 +1,52 @@
+<main class="register-container">
+  <h1><%= title %></h1>
+  
+  <% if (message) { %>
+    <div class="flash-message"><%= message %></div>
+  <% } %>
 
-  <main class="register-container">
-    <h1><%= title %></h1>
-    
-    <% if (message) { %>
-      <div class="flash-message"><%= message %></div>
-    <% } %>
+  <form action="/account/register" method="POST" class="register-form" novalidate id="registrationForm">
+    <div class="form-group">
+      <label for="account_firstname">First Name:</label>
+      <input 
+        type="text" 
+        id="account_firstname" 
+        name="account_firstname" 
+        required
+        pattern="[A-Za-z]{1,}"
+        title="Letters only (no numbers or special characters)"
+        class="validate">
+      <span class="error-message" aria-live="polite"></span>
+    </div>
 
-    <form action="/account/register" method="POST" class="register-form">
-      <div class="form-group">
-        <label for="account_firstname">First Name:</label>
-        <input 
-          type="text" 
-          id="account_firstname" 
-          name="account_firstname" 
-          required
-          pattern="[A-Za-z]{1,}"
-          title="Letters only">
-      </div>
+    <div class="form-group">
+      <label for="account_lastname">Last Name:</label>
+      <input 
+        type="text" 
+        id="account_lastname" 
+        name="account_lastname" 
+        required
+        pattern="[A-Za-z]{1,}"
+        title="Letters only (no numbers or special characters)"
+        class="validate">
+      <span class="error-message" aria-live="polite"></span>
+    </div>
 
-      <div class="form-group">
-        <label for="account_lastname">Last Name:</label>
-        <input 
-          type="text" 
-          id="account_lastname" 
-          name="account_lastname" 
-          required
-          pattern="[A-Za-z]{1,}"
-          title="Letters only">
-      </div>
+    <div class="form-group">
+      <label for="account_email">Email:</label>
+      <input 
+        type="email" 
+        id="account_email" 
+        name="account_email" 
+        required
+        placeholder="your@email.com"
+        class="validate">
+      <span class="error-message" aria-live="polite"></span>
+    </div>
 
-      <div class="form-group">
-        <label for="account_email">Email:</label>
-        <input 
-          type="email" 
-          id="account_email" 
-          name="account_email" 
-          required
-          placeholder="your@email.com">
-      </div>
-
-      <div class="form-group password-group">
-        <label for="account_password">Password:</label>
+    <div class="form-group password-group">
+      <label for="account_password">Password:</label>
+      <div class="password-wrapper">
         <input 
           type="password" 
           id="account_password" 
@@ -48,37 +54,114 @@
           required
           minlength="12"
           pattern="^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*]).{12,}$"
-          title="Must be 12+ chars with 1 uppercase, 1 number, 1 special character">
-        <button type="button" class="toggle-password">Show</button>
-        <div class="password-requirements">
-          <p>Password must:</p>
-          <ul>
-            <li>Be at least 12 characters</li>
-            <li>Contain 1 uppercase letter</li>
-            <li>Contain 1 number</li>
-            <li>Contain 1 special character</li>
-          </ul>
-        </div>
+          title="Must be 12+ chars with 1 uppercase, 1 number, 1 special character"
+          class="validate">
+        <button type="button" class="toggle-password" aria-label="Show password">Show</button>
       </div>
-
-      <button type="submit" class="btn-submit">Register</button>
-    </form>
-
-    <div class="login-link">
-      Already have an account? <a href="/account/login">Login</a>
+      <div class="password-requirements">
+        <p>Password must:</p>
+        <ul>
+          <li>Be at least 12 characters</li>
+          <li>Contain 1 uppercase letter</li>
+          <li>Contain 1 number</li>
+          <li>Contain 1 special character (!@#$%^&*)</li>
+        </ul>
+      </div>
+      <span class="error-message" aria-live="polite"></span>
     </div>
-  </main>
 
-  <script>
-    document.querySelector('.toggle-password').addEventListener('click', function() {
-      const passwordInput = document.getElementById('account_password');
-      const toggleButton = this;
-      if (passwordInput.type === 'password') {
-        passwordInput.type = 'text';
-        toggleButton.textContent = 'Hide';
-      } else {
-        passwordInput.type = 'password';
-        toggleButton.textContent = 'Show';
+    <button type="submit" class="btn-submit">Register</button>
+  </form>
+
+  <div class="login-link">
+    Already have an account? <a href="/account/login">Login</a>
+  </div>
+</main>
+
+<script>
+  // Form submission handler - MAIN FIX
+  document.getElementById('registrationForm').addEventListener('submit', function(e) {
+    let formIsValid = true;
+    const requiredFields = [
+      'account_firstname', 
+      'account_lastname', 
+      'account_email', 
+      'account_password'
+    ];
+
+    // Reset all errors first
+    requiredFields.forEach(fieldId => {
+      const field = document.getElementById(fieldId);
+      field.classList.remove('invalid');
+      field.nextElementSibling.textContent = '';
+    });
+
+    // Validate each field
+    requiredFields.forEach(fieldId => {
+      const field = document.getElementById(fieldId);
+      const errorSpan = field.nextElementSibling;
+      
+      if (!field.value.trim()) {
+        field.classList.add('invalid');
+        errorSpan.textContent = 'This field is required';
+        if (formIsValid) {
+          field.focus(); // Focus first invalid field
+          formIsValid = false;
+        }
+      } else if (!field.checkValidity()) {
+        field.classList.add('invalid');
+        errorSpan.textContent = field.title;
+        if (formIsValid) {
+          field.focus();
+          formIsValid = false;
+        }
       }
     });
-  </script>
+
+    if (!formIsValid) {
+      e.preventDefault();
+      document.querySelector('.invalid').scrollIntoView({
+        behavior: 'smooth',
+        block: 'center'
+      });
+    }
+  });
+
+  // Toggle password visibility
+  document.querySelector('.toggle-password').addEventListener('click', function() {
+    const passwordInput = document.getElementById('account_password');
+    const toggleButton = this;
+    if (passwordInput.type === 'password') {
+      passwordInput.type = 'text';
+      toggleButton.textContent = 'Hide';
+      toggleButton.setAttribute('aria-label', 'Hide password');
+    } else {
+      passwordInput.type = 'password';
+      toggleButton.textContent = 'Show';
+      toggleButton.setAttribute('aria-label', 'Show password');
+    }
+  });
+
+  // Real-time validation
+  document.querySelectorAll('.validate').forEach(field => {
+    field.addEventListener('input', function() {
+      const errorSpan = this.nextElementSibling;
+      if (this.checkValidity()) {
+        this.classList.remove('invalid');
+        errorSpan.textContent = '';
+      }
+    });
+    
+    field.addEventListener('blur', function() {
+      const errorSpan = this.nextElementSibling;
+      if (!this.checkValidity()) {
+        this.classList.add('invalid');
+        if (this.validity.valueMissing) {
+          errorSpan.textContent = 'This field is required';
+        } else {
+          errorSpan.textContent = this.title;
+        }
+      }
+    });
+  });
+</script>
