@@ -3,10 +3,16 @@ const router = express.Router();
 const accountController = require("../controllers/accountController");
 const Util = require("../utilities");
 
-// Login route
+// GET Routes
 router.get("/login", Util.handleErrors(accountController.buildLogin));
-
-// Registration route
 router.get("/register", Util.handleErrors(accountController.buildRegister));
+
+// POST Route for registration form submission
+/* ****************************************
+*  Process registration request
+* *************************************** */
+router.post("/register", 
+  Util.handleErrors(accountController.registerAccount)
+);
 
 module.exports = router;
