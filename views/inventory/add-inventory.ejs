@@ -1,0 +1,39 @@
+<%- include('../partials/header') %>
+<%- include('../partials/navigation', { nav }) %>
+
+<main class="form-container">
+  <h1><%= title %></h1>
+  
+  <% if (message) { %>
+    <div class="flash-message"><%= message %></div>
+  <% } %>
+
+  <% if (errors) { %>
+    <ul class="errors">
+      <% errors.array().forEach(error => { %>
+        <li><%= error.msg %></li>
+      <% }) %>
+    </ul>
+  <% } %>
+
+  <form action="/inv/add-inventory" method="POST" class="inventory-form">
+    <div class="form-group">
+      <label for="classification_id">Classification:</label>
+      <%- classificationList %>
+    </div>
+
+    <div class="form-group">
+      <label for="inv_make">Make:</label>
+      <input type="text" id="inv_make" name="inv_make" required
+        value="<%= typeof inv_make !== 'undefined' ? inv_make : '' %>"
+        class="<%= errors && errors.array().some(e => e.param === 'inv_make') ? 'invalid' : '' %>">
+    </div>
+
+    <!-- Add all other inventory fields following the same pattern -->
+    <!-- Include fields for inv_model, inv_year, inv_description, etc. -->
+    
+    <button type="submit" class="btn-submit">Add Vehicle</button>
+  </form>
+</main>
+
+<%- include('../partials/footer') %>

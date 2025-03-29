@@ -42,6 +42,156 @@ invCont.buildByInventoryId = async function (req, res, next) {
   }
 };
 
+/* ***************************
+ * Build management view
+ * ************************** */
+invCont.buildManagement = async function (req, res, next) {
+  try {
+    let nav = await utilities.getNav();
+    res.render("./inventory/management", {
+      title: "Inventory Management",
+      nav,
+      message: req.flash('notice') || null
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+/* ***************************
+ * Build add classification view
+ * ************************** */
+invCont.buildAddClassification = async function (req, res, next) {
+  try {
+    let nav = await utilities.getNav();
+    res.render("./inventory/add-classification", {
+      title: "Add New Classification",
+      nav,
+      errors: null,
+      message: req.flash('notice') || null
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+/* ***************************
+ * Process new classification
+ * ************************** */
+invCont.addClassification = async function (req, res, next) {
+  const { classification_name } = req.body;
+  let nav = await utilities.getNav();
+  
+  try {
+    const result = await invModel.addClassification(classification_name);
+    if (result.rowCount > 0) {
+      // Regenerate nav with new classification
+      nav = await utilities.getNav();
+      req.flash('notice', 'Classification added successfully!');
+      return res.redirect('/inv/');
+    } else {
+      req.flash('notice', 'Failed to add classification.');
+      return res.render("./inventory/add-classification", {
+        title: "Add New Classification",
+        nav,
+        errors: null,
+        classification_name,
+        message: req.flash('notice')
+      });
+    }
+  } catch (error) {
+    req.flash('notice', 'Error adding classification.');
+    return res.render("./inventory/add-classification", {
+      title: "Add New Classification",
+      nav,
+      errors: null,
+      classification_name,
+      message: req.flash('notice')
+    });
+  }
+};
+
+/* ***************************
+ * Build add inventory view
+ * ************************** */
+invCont.buildAddInventory = async function (req, res, next) {
+  try {
+    let nav = await utilities.getNav();
+    const classificationList = await utilities.buildClassificationList();
+    res.render("./inventory/add-inventory", {
+      title: "Add New Vehicle",
+      nav,
+      classificationList,
+      errors: null,
+      message: req.flash('notice') || null
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+/* ***************************
+ * Process new inventory
+ * ************************** */
+invCont.addInventory = async function (req, res, next) {
+  const {
+    classification_id,
+    inv_make,
+    inv_model,
+    inv_year,
+    inv_description,
+    inv_image,
+    inv_thumbnail,
+    inv_price,
+    inv_miles,
+    inv_color
+  } = req.body;
+
+  let nav = await utilities.getNav();
+  
+  try {
+    const result = await invModel.addInventory(
+      classification_id,
+      inv_make,
+      inv_model,
+      inv_year,
+      inv_description,
+      inv_image,
+      inv_thumbnail,
+      inv_price,
+      inv_miles,
+      inv_color
+    );
+
+    if (result.rowCount > 0) {
+      req.flash('notice', 'Vehicle added successfully!');
+      return res.redirect('/inv/');
+    } else {
+      const classificationList = await utilities.buildClassificationList(classification_id);
+      req.flash('notice', 'Failed to add vehicle.');
+      return res.render("./inventory/add-inventory", {
+        title: "Add New Vehicle",
+        nav,
+        classificationList,
+        errors: null,
+        ...req.body,
+        message: req.flash('notice')
+      });
+    }
+  } catch (error) {
+    const classificationList = await utilities.buildClassificationList(classification_id);
+    req.flash('notice', 'Error adding vehicle.');
+    return res.render("./inventory/add-inventory", {
+      title: "Add New Vehicle",
+      nav,
+      classificationList,
+      errors: null,
+      ...req.body,
+      message: req.flash('notice')
+    });
+  }
+};
+
 // Intentional 500 error function
 invCont.triggerError = async function (req, res, next) {
   // Intentionally throw an error
