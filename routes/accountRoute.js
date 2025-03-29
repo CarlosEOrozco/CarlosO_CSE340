@@ -9,14 +9,19 @@ router.get("/login", Util.handleErrors(accountController.buildLogin));
 router.get("/register", Util.handleErrors(accountController.buildRegister));
 
 // POST Route for registration form submission
-/* ****************************************
-*  Process registration request
-* *************************************** */
 router.post(
   "/register",
   regValidate.registationRules(),
   regValidate.checkRegData,
   Util.handleErrors(accountController.registerAccount)
-)
+);
+
+// Process the login attempt
+router.post(
+  "/login",
+  regValidate.loginRules(),
+  regValidate.checkLoginData,
+  Util.handleErrors(accountController.accountLogin)
+);
 
 module.exports = router;
