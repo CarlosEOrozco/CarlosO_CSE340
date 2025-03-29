@@ -1,4 +1,4 @@
-<form action="/account/login" method="POST" class="login-form">
+<form action="/account/login" method="POST" class="login-form" novalidate>
   <div class="form-group">
     <label for="account_email">Email:</label>
     <input 
@@ -6,7 +6,16 @@
       id="account_email" 
       name="account_email" 
       required
-      placeholder="your@email.com">
+      placeholder="your@email.com"
+      value="<%= account_email %>"
+      class="<%= typeof errors !== 'undefined' && errors.array().some(e => e.param === 'account_email') ? 'invalid' : '' %>">
+    <span class="error-message" aria-live="polite">
+      <% if (typeof errors !== 'undefined') { %>
+        <% errors.array().filter(e => e.param === 'account_email').forEach(error => { %>
+          <%= error.msg %>
+        <% }) %>
+      <% } %>
+    </span>
   </div>
 
   <div class="form-group">
@@ -18,7 +27,15 @@
       required
       pattern="^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*]).{12,}$"
       title="Password must be at least 12 characters long and contain: 1 uppercase letter, 1 number, and 1 special character (!@#$%^&*)"
-      placeholder="••••••••••••">
+      placeholder="••••••••••••"
+      class="<%= typeof errors !== 'undefined' && errors.array().some(e => e.param === 'account_password') ? 'invalid' : '' %>">
+    <span class="error-message" aria-live="polite">
+      <% if (typeof errors !== 'undefined') { %>
+        <% errors.array().filter(e => e.param === 'account_password').forEach(error => { %>
+          <%= error.msg %>
+        <% }) %>
+      <% } %>
+    </span>
     <small class="form-text">
       Password must:
       <ul class="password-requirements">
