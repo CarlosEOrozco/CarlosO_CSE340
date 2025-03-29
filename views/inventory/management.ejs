@@ -1,0 +1,26 @@
+<%- include('../partials/header') %>
+<%- include('../partials/navigation', { nav }) %>
+
+<main class="management-container">
+  <h1><%= title %></h1>
+  
+  <% if (message) { %>
+    <div class="flash-message"><%= message %></div>
+  <% } %>
+
+  <div class="management-actions">
+    <div class="action-card">
+      <h2>Add New Classification</h2>
+      <p>Create new vehicle classifications</p>
+      <a href="/inv/add-classification" class="btn-action">Add Classification</a>
+    </div>
+    
+    <div class="action-card">
+      <h2>Add New Vehicle</h2>
+      <p>Add vehicles to inventory</p>
+      <a href="/inv/add-inventory" class="btn-action">Add Vehicle</a>
+    </div>
+  </div>
+</main>
+
+<%- include('../partials/footer') %>

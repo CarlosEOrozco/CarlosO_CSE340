@@ -1,0 +1,38 @@
+<%- include('../partials/header') %>
+<%- include('../partials/navigation', { nav }) %>
+
+<main class="form-container">
+  <h1><%= title %></h1>
+  
+  <% if (message) { %>
+    <div class="flash-message"><%= message %></div>
+  <% } %>
+
+  <% if (errors) { %>
+    <ul class="errors">
+      <% errors.array().forEach(error => { %>
+        <li><%= error.msg %></li>
+      <% }) %>
+    </ul>
+  <% } %>
+
+  <form action="/inv/add-classification" method="POST" class="inventory-form">
+    <div class="form-group">
+      <label for="classification_name">Classification Name:</label>
+      <input 
+        type="text" 
+        id="classification_name" 
+        name="classification_name" 
+        required
+        pattern="^[a-zA-Z0-9]+$"
+        title="No spaces or special characters allowed"
+        value="<%= typeof classification_name !== 'undefined' ? classification_name : '' %>"
+        class="<%= errors && errors.array().some(e => e.param === 'classification_name') ? 'invalid' : '' %>">
+      <span class="form-text">No spaces or special characters allowed</span>
+    </div>
+
+    <button type="submit" class="btn-submit">Add Classification</button>
+  </form>
+</main>
+
+<%- include('../partials/footer') %>
