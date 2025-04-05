@@ -121,6 +121,19 @@ const accountController = {
       throw new Error('Access Forbidden');
     }
   }
+
+  /* ****************************************
+   *  Deliver Account Management View
+   * *************************************** */
+  buildAccountManagement: async function (req, res, next) {
+    let nav = await utilities.getNav();
+    res.render("account/management", {
+      title: "Account Management",
+      nav,
+      errors: null,
+      message: req.flash('notice') || null
+    });
+  }
 };
 
 module.exports = accountController;
