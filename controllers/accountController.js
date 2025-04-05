@@ -120,7 +120,7 @@ const accountController = {
     } catch (error) {
       throw new Error('Access Forbidden');
     }
-  }
+  },
 
   /* ****************************************
    *  Deliver Account Management View
