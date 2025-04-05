@@ -8,10 +8,10 @@
       required
       placeholder="your@email.com"
       value="<%= account_email %>"
-      class="<%= typeof errors !== 'undefined' && errors.array().some(e => e.param === 'account_email') ? 'invalid' : '' %>">
+      class="<%= (locals.errors && locals.errors.array && locals.errors.array().some(e => e.param === 'account_email')) ? 'invalid' : '' %>">
     <span class="error-message" aria-live="polite">
-      <% if (typeof errors !== 'undefined') { %>
-        <% errors.array().filter(e => e.param === 'account_email').forEach(error => { %>
+      <% if (locals.errors && locals.errors.array) { %>
+        <% locals.errors.array().filter(e => e.param === 'account_email').forEach(error => { %>
           <%= error.msg %>
         <% }) %>
       <% } %>
@@ -28,10 +28,10 @@
       pattern="^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*]).{12,}$"
       title="Password must be at least 12 characters long and contain: 1 uppercase letter, 1 number, and 1 special character (!@#$%^&*)"
       placeholder="••••••••••••"
-      class="<%= typeof errors !== 'undefined' && errors.array().some(e => e.param === 'account_password') ? 'invalid' : '' %>">
+      class="<%= (locals.errors && locals.errors.array && locals.errors.array().some(e => e.param === 'account_password')) ? 'invalid' : '' %>">
     <span class="error-message" aria-live="polite">
-      <% if (typeof errors !== 'undefined') { %>
-        <% errors.array().filter(e => e.param === 'account_password').forEach(error => { %>
+      <% if (locals.errors && locals.errors.array) { %>
+        <% locals.errors.array().filter(e => e.param === 'account_password').forEach(error => { %>
           <%= error.msg %>
         <% }) %>
       <% } %>
