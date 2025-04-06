@@ -305,6 +305,62 @@ invCont.getInventoryJSON = async (req, res, next) => {
   }
 };
 
+/* ***************************
+ *  Build Delete Confirmation View
+ * ************************** */
+invCont.buildDeleteConfirmation = async function (req, res, next) {
+  try {
+    const inv_id = parseInt(req.params.inv_id);
+    let nav = await utilities.getNav();
+    const itemData = await invModel.getInventoryById(inv_id);
+    const itemName = `${itemData.inv_make} ${itemData.inv_model}`;
+    
+    res.render("./inventory/delete-confirm", {
+      title: "Delete " + itemName,
+      nav,
+      errors: null,
+      inv_id: itemData.inv_id,
+      inv_make: itemData.inv_make,
+      inv_model: itemData.inv_model,
+      inv_year: itemData.inv_year,
+      inv_price: itemData.inv_price,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+/* ***************************
+ *  Process Inventory Deletion
+ * ************************** */
+invCont.deleteInventory = async function (req, res, next) {
+  try {
+    // 1. Collect inv_id from request.body and parse as integer
+    const inv_id = parseInt(req.body.inv_id);
+    
+    // 2. Get item data for flash message
+    const itemData = await invModel.getInventoryById(inv_id);
+    const itemName = `${itemData.inv_make} ${itemData.inv_model}`;
+    
+    // 3. Call model to delete inventory item
+    const deleteResult = await invModel.deleteInventory(inv_id);
+
+    // 4. Check result and respond accordingly
+    if (deleteResult.rowCount > 0) {
+      // Success - redirect to management view with success message
+      req.flash("notice", `The ${itemName} was successfully deleted.`);
+      res.redirect("/inv/");
+    } else {
+      // Failure - re-render delete confirmation view with error
+      let nav = await utilities.getNav();
+      req.flash("notice", "Sorry, the deletion failed.");
+      res.redirect(`/inv/delete/${inv_id}`);
+    }
+  } catch (error) {
+    next(error);
+  }
+};
+
 // Intentional 500 error function
 invCont.triggerError = async function (req, res, next) {
   throw new Error("Intentional 500 Error: Something went wrong!");
