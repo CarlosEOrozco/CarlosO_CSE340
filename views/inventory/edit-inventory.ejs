@@ -17,8 +17,6 @@
   <% } %>
 
   <form action="/inv/update" method="POST" class="inventory-form">
-    <input type="hidden" name="inv_id" value="<%= inv_id %>">
-    
     <div class="form-group">
       <label for="classification_id">Classification:</label>
       <%- classificationSelect %>
@@ -87,6 +85,10 @@
     </div>
 
     <button type="submit" class="btn-submit">Update Vehicle</button>
+    <input type="hidden" name="inv_id" 
+      <% if (locals.inv_id) { %> 
+        value="<%= locals.inv_id %>"
+      <% } %>>
   </form>
 </main>
 

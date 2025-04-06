@@ -1,5 +1,6 @@
 const { body, validationResult } = require('express-validator');
 const validate = {};
+const utilities = require("./");
 
 /* ***************************
  * Classification Validation Rules
@@ -95,6 +96,38 @@ validate.checkInventoryData = async (req, res, next) => {
       classificationList,
       errors: errors.array(),
       ...req.body,
+      message: null
+    });
+  }
+  next();
+};
+
+/* ***************************
+ * Check inventory update data
+ * ************************** */
+validate.checkUpdateData = async (req, res, next) => {
+  const { inv_id, inv_make, inv_model } = req.body;
+  let errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    let nav = await utilities.getNav();
+    const classificationSelect = await utilities.buildClassificationList(req.body.classification_id);
+    const itemName = `${inv_make} ${inv_model}`;
+    return res.render("./inventory/edit-inventory", {
+      title: "Edit " + itemName,
+      nav,
+      classificationSelect,
+      errors: errors.array(),
+      inv_id,
+      inv_make,
+      inv_model,
+      inv_year: req.body.inv_year,
+      inv_description: req.body.inv_description,
+      inv_image: req.body.inv_image,
+      inv_thumbnail: req.body.inv_thumbnail,
+      inv_price: req.body.inv_price,
+      inv_miles: req.body.inv_miles,
+      inv_color: req.body.inv_color,
+      classification_id: req.body.classification_id,
       message: null
     });
   }
