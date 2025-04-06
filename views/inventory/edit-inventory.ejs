@@ -16,7 +16,7 @@
     </ul>
   <% } %>
 
-  <form action="/inv/update" method="POST" class="inventory-form">
+  <form action="/inv/update" method="POST" class="inventory-form" id="updateForm">
     <div class="form-group">
       <label for="classification_id">Classification:</label>
       <%- classificationSelect %>
@@ -84,7 +84,7 @@
         class="<%= errors && errors.array().some(e => e.param === 'inv_color') ? 'invalid' : '' %>">
     </div>
 
-    <button type="submit" class="btn-submit">Update Vehicle</button>
+    <button type="submit" class="btn-submit" disabled>Update Vehicle</button>
     <input type="hidden" name="inv_id" 
       <% if (locals.inv_id) { %> 
         value="<%= locals.inv_id %>"
@@ -93,3 +93,4 @@
 </main>
 
 <%- include('../partials/footer') %>
+<script src="/js/inv-update.js"></script>
