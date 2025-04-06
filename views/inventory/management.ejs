@@ -21,6 +21,28 @@
       <a href="/inv/add-inventory" class="btn-action">Add Vehicle</a>
     </div>
   </div>
+
+  <!-- Inventory Management Section -->
+  <div class="inventory-management">
+    <h2>Manage Inventory</h2>
+    <p>Select a classification from the list to view inventory items:</p>
+    
+    <!-- Classification Selection Dropdown -->
+    <% if (classificationSelect) { %>
+      <%- classificationSelect %>
+    <% } %>
+
+    <!-- Inventory Display Table -->
+    <table id="inventoryDisplay" class="inventory-table"></table>
+
+    <!-- No JavaScript Warning -->
+    <noscript>
+      <p class="error-message">JavaScript must be enabled to use this page.</p>
+    </noscript>
+  </div>
 </main>
+
+<!-- Include JavaScript for AJAX functionality -->
+<script src="/js/inventoryManagement.js" defer></script>
 
 <%- include('../partials/footer') %>

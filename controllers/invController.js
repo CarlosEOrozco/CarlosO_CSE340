@@ -1,7 +1,7 @@
-const invModel = require("../models/inventory-model")
-const utilities = require("../utilities/")
+const invModel = require("../models/inventory-model");
+const utilities = require("../utilities/");
 
-const invCont = {}
+const invCont = {};
 
 /* ***************************
  * Build inventory by classification view
@@ -19,7 +19,7 @@ invCont.buildByClassificationId = async function (req, res, next) {
       grid,
     });
   } catch (error) {
-    next(error); // Pass errors to the error-handling middleware
+    next(error);
   }
 };
 
@@ -38,7 +38,7 @@ invCont.buildByInventoryId = async function (req, res, next) {
       detailHTML,
     });
   } catch (error) {
-    next(error); // Pass errors to the error-handling middleware
+    next(error);
   }
 };
 
@@ -48,9 +48,12 @@ invCont.buildByInventoryId = async function (req, res, next) {
 invCont.buildManagement = async function (req, res, next) {
   try {
     let nav = await utilities.getNav();
+    const classificationSelect = await utilities.buildClassificationList();
+    
     res.render("./inventory/management", {
       title: "Inventory Management",
       nav,
+      classificationSelect,
       message: req.flash('notice') || null
     });
   } catch (error) {
@@ -85,7 +88,6 @@ invCont.addClassification = async function (req, res, next) {
   try {
     const result = await invModel.addClassification(classification_name);
     if (result.rowCount > 0) {
-      // Regenerate nav with new classification
       nav = await utilities.getNav();
       req.flash('notice', 'Classification added successfully!');
       return res.redirect('/inv/');
@@ -194,8 +196,7 @@ invCont.addInventory = async function (req, res, next) {
 
 // Intentional 500 error function
 invCont.triggerError = async function (req, res, next) {
-  // Intentionally throw an error
   throw new Error("Intentional 500 Error: Something went wrong!");
 };
 
-module.exports = invCont
+module.exports = invCont;
